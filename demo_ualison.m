@@ -33,7 +33,8 @@
 
 %% Example 2
 load frequence2.mat
-for i=13%1:1:20 %Encontrar melhor valor de Granularidade
+%for i=1:1:20; %Encontrar melhor valor de Granularidade
+i=14;
 %% O Classificador SOF conduzindo aprendizado offline apartir de dados estáticos
 Input.TrainingData=DTra2;
 Input.TrainingLabel=LTra2;
@@ -44,6 +45,7 @@ DistanceType='Minkowski';
 %DistanceType='Mahalanobis'; 
 %DistanceType='Hamming';
 Mode='OfflineTraining';
+tic
 [Output0]=SOFClassifier_ualison(Input,GranLevel,Mode,DistanceType);
 %% O Classificador SOF conduzindo aprendizado online apartir de transmissão de dados depois de serem preparados offline
 Input=Output0;               
@@ -72,5 +74,12 @@ con_colu=sum(matriz_confusao');
 Acc=max_colu./con_colu;
 mean_Acc=mean(Acc);
 %mean_Acc(i)=mean(Acc);
-end
+%i
+[Result,RefereceResult]=confusion.getValues(matriz_confusao);
+MSE = sum((Output2.EstimatedLabel-LTes1).^2)/length(Output2.EstimatedLabel);
+err = immse(LTes1,Output2.EstimatedLabel);
+disp(Result)
+toc
+
+%end %Encontrar melhor valor de Granularidade
 %% End of example 2
